@@ -1,15 +1,15 @@
-(function () 
+(function ()
 {
     'use strict';
     var app = angular.module('quabeebwebapp');
-    
+
     app.controller('GameController', ['$window', '$document', function($window, $document)
     {
     	var game = function()
     	{
     		var self = this;
     		var highscore = 0;
-    		
+
     		self.init = function()
     		{
     			self.score = 0;
@@ -24,111 +24,111 @@
 
 				self.ROTATIONS = //[L,RL,Z,RZ,T]
     			[
-	    			[ 
-	    				[	
+	    			[
+	    				[
 	    					[0,0,0],
 	    					[1,1,1],
 	    					[1,0,0]
 	    				],
-	    				[	
+	    				[
 	    					[0,1,0],
 	    					[0,1,0],
 	    					[0,1,1]
 	    				],
-	    				[	
+	    				[
 	    					[0,0,1],
 	    					[1,1,1],
 	    					[0,0,0]
 	    				],
-	    				[	
+	    				[
 	    					[1,1,0],
 	    					[0,1,0],
 	    					[0,1,0]
 	    				]
 					],
 	    			[
-	    				[	
+	    				[
 	    					[0,0,0],
 	    					[1,1,1],
 	    					[0,0,1]
 	    				],
-	    				[	
+	    				[
 	    					[0,1,1],
 	    					[0,1,0],
 	    					[0,1,0]
 	    				],
-	    				[	
+	    				[
 	    					[1,0,0],
 	    					[1,1,1],
 	    					[0,0,0]
 	    				],
-	    				[	
+	    				[
 	    					[0,1,0],
 	    					[0,1,0],
 	    					[1,1,0]
 	    				]
 					],
 	    			[
-	    				[	
+	    				[
 	    					[0,1,1],
 	    					[1,1,0],
 	    					[0,0,0]
 	    				],
-	    				[	
+	    				[
 	    					[1,0,0],
 	    					[1,1,0],
 	    					[0,1,0]
 	    				],
-	    				[	
+	    				[
 	    					[0,0,0],
 	    					[0,1,1],
 	    					[1,1,0]
 	    				],
-	    				[	
+	    				[
 	    					[0,1,0],
 	    					[0,1,1],
 	    					[0,0,1]
 	    				]
 					],
 	    			[
-	    				[	
+	    				[
 	    					[1,1,0],
 	    					[0,1,1],
 	    					[0,0,0]
 	    				],
-	    				[	
+	    				[
 	    					[0,1,0],
 	    					[1,1,0],
 	    					[1,0,0]
 	    				],
-	    				[	
+	    				[
 	    					[0,0,0],
 	    					[1,1,0],
 	    					[0,1,1]
 	    				],
-	    				[	
+	    				[
 	    					[0,0,1],
 	    					[0,1,1],
 	    					[0,1,0]
 	    				]
 					],
 	    			[
-	    				[	
+	    				[
 	    					[0,1,0],
 	    					[1,1,1],
 	    					[0,0,0]
 	    				],
-	    				[	
+	    				[
 	    					[0,1,0],
 	    					[1,1,0],
 	    					[0,1,0]
 	    				],
-	    				[	
+	    				[
 	    					[0,0,0],
 	    					[1,1,1],
 	    					[0,1,0]
 	    				],
-	    				[	
+	    				[
 	    					[0,1,0],
 	    					[0,1,1],
 	    					[0,1,0]
@@ -136,11 +136,11 @@
 					]
 				];
 
-    			self.wall = 
+    			self.wall =
     			{
-    				topLeftX:0, 
+    				topLeftX:0,
     				topLeftY:0,
-    				topRightX:0, 
+    				topRightX:0,
     				topRightY:0,
     				botLeftX:0,
     				botLeftY:0,
@@ -148,11 +148,11 @@
     				botLeftX:0
     			};
 
-    			self.wallBlank = 
+    			self.wallBlank =
     			{
     				topLeftX:0,
     				topLeftY:0,
-    				xPos:0, 
+    				xPos:0,
     				yPos:0,
     				blockSize:0,
     				rmn:0, //rotation matrix number (0 = L, 1 = RL ... )
@@ -160,16 +160,16 @@
     				matrix:0
     			}
 
-    			self.piece = 
+    			self.piece =
     			{
-    				topLeftX:0, 
+    				topLeftX:0,
     				topLeftY:0,
-    				xPos:0, 
+    				xPos:0,
     				yPos:0,
     				rmn:0, //rotation matrix number (0 = L, 1 = RL ... )
     				rotation:0,
-    				matrix:0				
-    			};	
+    				matrix:0
+    			};
 
     			self.ctx.fillStyle = 'black'
     			self.ctx.clearRect(0,0,self.canvas.width,self.canvas.height);
@@ -185,14 +185,14 @@
 			{
 				self.wall.topLeftX = self.wall.botLeftX = Math.floor(Math.random() * 3 + 1) * self.blockWidth;
 				self.wall.topLeftY = self.wall.topRightY= Math.floor(Math.random() * 3 + 1) * self.blockHeight;
-				self.wall.topRightX = self.wall.topLeftX + self.blockWidth*2;				
+				self.wall.topRightX = self.wall.topLeftX + self.blockWidth*2;
 				self.wall.botLeftY = self.wall.topLeftY + self.blockWidth*2;
-				self.wallXSize = self.wall.topRightX - self.wall.topLeftX;		
+				self.wallXSize = self.wall.topRightX - self.wall.topLeftX;
 				self.wallYSize = self.wall.botLeftY - self.wall.topLeftY;
 
 				self.piece.rmn = Math.floor(Math.random() * 5);
-				self.piece.rotation = Math.floor(Math.random() * 4);								
-				self.piece.matrix = self.ROTATIONS[self.piece.rmn][self.piece.rotation];	
+				self.piece.rotation = Math.floor(Math.random() * 4);
+				self.piece.matrix = self.ROTATIONS[self.piece.rmn][self.piece.rotation];
 				self.piece.xPos = Math.floor(Math.random() * 3 + 1)
 				self.piece.yPos = Math.floor(Math.random() * 3 + 1)
 				self.piece.topLeftX = self.piece.xPos * self.blockWidth;
@@ -213,17 +213,17 @@
 				self.wallBlankColor = "rgb(" + Math.floor(Math.random() * 100 + 150) + "," + Math.floor(Math.random() * 100 + 150) + "," + Math.floor(Math.random() * 100 + 150) + ")";
 				self.pieceColor = "rgba(" + Math.floor(Math.random() * 100) + "," + (150-g) + "," + Math.floor(Math.random() * 50) + ",.6)";
 
-				self.wallXSize = self.wall.topRightX - self.wall.topLeftX;		
+				self.wallXSize = self.wall.topRightX - self.wall.topLeftX;
 				self.wallYSize = self.wall.botLeftY - self.wall.topLeftY;
 
 				//calculates the ratio of the x's
 				let xRatio = (self.canvas.width-self.wall.topRightX)/(self.wall.topLeftX);
 				let yRatio = (self.canvas.height-self.wall.botLeftY)/(self.wall.topLeftY);
-										
+
 				self.leftXInc = self.wall.topLeftX/self.timesteps;
 				self.topYInc = self.wall.topLeftY/self.timesteps;
 
-				self.rightXInc = self.leftXInc*xRatio;				
+				self.rightXInc = self.leftXInc*xRatio;
 				self.botYInc = self.topYInc*yRatio;
 
 				self.increments = 0;
@@ -236,7 +236,7 @@
 				self.wall.topRightX = self.wall.botRightX = self.wall.topRightX + self.rightXInc;
 				self.wall.topLeftY  = self.wall.topRightY = self.wall.topLeftY - self.topYInc;
 				self.wall.botLeftY  = self.wall.botRightY = self.wall.botLeftY + self.botYInc;
-				
+
 				self.wallXSize = self.wall.topRightX - self.wall.topLeftX;
 				self.wallYSize = self.wall.botLeftY - self.wall.topLeftY;
 
@@ -317,7 +317,7 @@
 			};
 
 			function updateScores()
-			{	
+			{
 				highscore = Math.max(highscore, self.score)
 				document.getElementById("highscore").innerText = "High Score: " + highscore;
 				document.getElementById("score").innerText = "Score: " + self.score;
@@ -326,19 +326,19 @@
 			function wallLoop()
 			{
 				if(!self.paused)
-				{				
+				{
 					if(self.increments < self.timesteps)
 					{
 						increment();
 						self.increments = self.increments + 1;
 					}
 					else
-					{	
-						if(noCollision())		
-						{		
+					{
+						if(noCollision())
+						{
 							self.score++;
-							self.timesteps = Math.max(Math.round(self.timesteps*.95), 75);	
-							newLevel();		
+							self.timesteps = Math.max(Math.round(self.timesteps*.95), 75);
+							newLevel();
 						}
 						else
 						{
@@ -350,10 +350,10 @@
 					}
 
 					var framesPerSecond = 60;
-					setTimeout(function() 
+					setTimeout(function()
 					{
 				        requestAnimationFrame(wallLoop);
-						
+
 						//background
 						self.ctx.fillStyle = self.wallBlankColor;
 						self.ctx.fillRect(0, 0, self.canvas.width, self.canvas.height);
@@ -364,7 +364,7 @@
 
 						//wall blank
 						let xpos = self.wall.topLeftX + self.wallBlank.xPos*self.wallBlank.xBlockSize;
-						
+
 						//wall blank
 						self.ctx.fillStyle = self.wallBlankColor;
 						for(let x = 0; x < 3; x++)
@@ -380,7 +380,7 @@
 								ypos += (self.wallBlank.yBlockSize - .5);
 							}
 							xpos += (self.wallBlank.xBlockSize - .5);
-						}	
+						}
 
 						//piece
 						self.ctx.fillStyle = self.pieceColor;
@@ -393,8 +393,8 @@
 									self.ctx.fillRect(self.piece.topLeftX + self.blockHeight*x, self.piece.topLeftY + self.blockHeight*y, self.blockWidth, self.blockHeight);
 								}
 							}
-						}	 
-				 
+						}
+
 				    }, 1000 / framesPerSecond);
 				}
 			};
@@ -436,7 +436,7 @@
 	  			{
 	  				self.piece.rotation = ((self.piece.rotation-1 % 4) + 4) % 4;
 	  				handleRotate();
-	  				
+
 	  			}
 	  			else if(event.code == "KeyP" && self.started)
 	  			{
@@ -449,7 +449,7 @@
 	  				self.paused = false;
 	  				wallLoop();
 	  			}
-	  		});		
+	  		});
 
 	  		window.addEventListener("keydown", function(event)
 	  		{
