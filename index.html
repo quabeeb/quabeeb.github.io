@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="google-site-verification" content="CFLbf57SuY45MYhjfoJfcUYABwSaRe9-9mUI-Ozy9Qk" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <title>quabeeb.org</title>
+    <link rel="stylesheet" href="vendor/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+</head>
+
+<body ng-app="quabeebwebapp">
+    <div class="container">
+
+        <div class="row">
+            <div class="page-header">
+                <h1>Tetris Wall</h1>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs" >
+            <li role="presentation" class="active"><a data-toggle="tab" href="#game">Tetris Wall</a></li>
+            <li role="presentation"><a data-toggle="tab" href="#instructions">Instructions</a></li>
+            <li role="presentation"><a data-toggle="tab" href="#about">About</a></li>
+        </ul>
+
+        <div id="tabcontent" class="tab-content">
+          <div id="game" class="tab-pane active" ng-include="'app/components/game.html'"></div>
+          <div id="instructions" class="tab-pane" ng-include="'app/components/instructions.html'"></div>
+          <div id="about" class="tab-pane" ng-include="'app/components/about.html'"></div>
+        </div>
+
+    </div>
+
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="vendor/jquery/jquery-3.1.1.js"></script>
+    <script src="vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/components/GameController.js"></script>
+</body>
+
+</html>
